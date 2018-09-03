@@ -12,9 +12,8 @@
 &nbsp;&nbsp;Different methods for virus detection and removal methods that these viruses are being developed. These improvements are advanced polymorphism with the occurrence of new viruses. In this project the author has devised a new method we want to understand.
 </p>
 
-<p dir="rtl" align="justify">
-## ﺗﺤﻠﻴﻞ ﺑﺮرﺳ و ﻲو ﻳﺮوسﻫﺎ يﭼﻨﺪر ﻳﺨﺘﻲ اﻟﮕﻮر و ﻳﺘﻢﻫﺎ يﺷﻨﺎﺳﺎ ﻳﻲ آن ﻫﺎ DFA-Detection ﺑﻪ وﺳﻴﻠﻪ
-</p>
+
+## <p dir="rtl" align="justify">ﺗﺤﻠﻴﻞ ﺑﺮرﺳ و ﻲو ﻳﺮوسﻫﺎ یﭼﻨﺪر ﻳﺨﺘﻲ اﻟﮕﻮر و ﻳﺘﻢﻫﺎ یﺷﻨﺎﺳﺎ ﻳﻲ آن ﻫﺎ DFA-Detection ﺑﻪ وﺳﻴﻠﻪ</p>
 
 <p dir="rtl" align="justify">
 &nbsp;&nbsp;ویروس‌های رایانه‌ای تشابه زیادی با ویروس‌های بیولوژیكی دارند. چرا كه ویروس‌های رایانه‌ای نیز مانند ویروس‌های بیولوژیكی تكثیر می‌شوند، تخریب‌های غیر منتظره دارند، گونه بسیار پیشرفته این گونه ویروس‌ها ، ویروس‌های چند ریختی هستند. این گونه ویروس قدرت تغییر شکل دارند مانند آنکه از نظر DNA تغییر کنند.
