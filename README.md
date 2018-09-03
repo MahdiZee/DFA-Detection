@@ -1,4 +1,4 @@
-# Metamorphic Viruses Analysis and Detection by "DFA-Detection" Algorithm
+## Metamorphic Viruses Analysis and Detection by DFA-Detection Algorithm
 
 <p dir="ltr" align="justify">
 &nbsp;&nbsp;There are many similarities with biological viruses, computer viruses. Like biological viruses, computer viruses proliferate because they are unexpected destruction, the most advanced of these viruses, and viruses are polymorphism. These viruses have the power to change the shape of DNA, like the change.
@@ -10,6 +10,10 @@
 
 <p dir="ltr" align="justify">
 &nbsp;&nbsp;Different methods for virus detection and removal methods that these viruses are being developed. These improvements are advanced polymorphism with the occurrence of new viruses. In this project the author has devised a new method we want to understand.
+</p>
+
+<p dir="rtl" align="justify">
+## ﺗﺤﻠﻴﻞ ﺑﺮرﺳ و ﻲو ﻳﺮوسﻫﺎ يﭼﻨﺪر ﻳﺨﺘﻲ اﻟﮕﻮر و ﻳﺘﻢﻫﺎ يﺷﻨﺎﺳﺎ ﻳﻲ آن ﻫﺎ DFA-Detection ﺑﻪ وﺳﻴﻠﻪ
 </p>
 
 <p dir="rtl" align="justify">
