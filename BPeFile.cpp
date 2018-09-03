@@ -78,7 +78,7 @@ BOOL BPeFile::Init()
     }
 
     if ((NTHeader.FileHeader.Machine != IMAGE_FILE_MACHINE_I386) || 
-        (NTHeader.FileHeader.SizeOfOptionalHeader != 0 ) &&
+        (NTHeader.FileHeader.SizeOfOptionalHeader != 0) &&
         (NTHeader.FileHeader.SizeOfOptionalHeader != sizeof(NTHeader.OptionalHeader)))
     {
         Error = GeneralError;

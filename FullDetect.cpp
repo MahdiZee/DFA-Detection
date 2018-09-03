@@ -1553,7 +1553,7 @@ DWORD DetectVirut_AC(void)
     {
         // IsLikeVir
         // State = SUSPICIOUS;
-        return VirusNo ;
+        return VirusNo;
     }
 
 #ifdef Behpad

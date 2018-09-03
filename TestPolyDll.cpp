@@ -85,7 +85,7 @@ bool ScanPath(LPCTSTR Path, bool Dir)
             else
                 lstrcat (TempPath, FindFileData.cFileName);
 
-            if ( FindFileData.dwFileAttributes == FILE_ATTRIBUTE_DIRECTORY )
+            if (FindFileData.dwFileAttributes == FILE_ATTRIBUTE_DIRECTORY)
             {
                 if ((lstrlen (TempPath) + lstrlen ("\\")) > MAX_PATH)
                     continue;

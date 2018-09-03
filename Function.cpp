@@ -654,7 +654,7 @@ void JMPT (void)
     // SIGNED_DWORD t = 1;
     // WORD Temp = *Parametr[0];
     // BufferSeek (*Parametr[0]);
-    // for (SIGNED_DWORD i = 0 ; i < NJmp && t == 1; i++)
+    // for (SIGNED_DWORD i = 0; i < NJmp && t == 1; i++)
     //     t = Anlayz (void);
     // *Parametr[0] = Temp;
     // BufferSeek (*Parametr[0]);
@@ -791,7 +791,7 @@ void RET (void)
     TopStack += f;
 }
 //------------------------------------------------------------------------------
-void X86Emul_RetWithNumber (SIGNED_DWORD Number )
+void X86Emul_RetWithNumber (SIGNED_DWORD Number)
 {
     Const = Number;
     Parametr[0] = &Const;

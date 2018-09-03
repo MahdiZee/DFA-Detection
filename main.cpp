@@ -92,7 +92,7 @@ ErrorMessage DisInfectVirus (BPeFile* PeFile, DWORD OffsetInfection, DWORD Offse
     if (Error != NoError)
         return Error;
     
-    if(PeFile->ZeroBlockEndSection(OffsetStub) == FALSE)
+    if (PeFile->ZeroBlockEndSection(OffsetStub) == FALSE)
         return NotWrite;
 
     return NoError;

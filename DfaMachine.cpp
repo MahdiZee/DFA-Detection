@@ -587,13 +587,13 @@ ScanResult DetectVirut(WORD Ins, PBYTE OpCode, HeuristicCallBack* This)
             This->State = Virut_XOR_SUB;
         break;
     case Virut_XOR_SUB  :
-        if ((Ins == ID_XOR && *OpCode == 0x31) )
+        if ((Ins == ID_XOR && *OpCode == 0x31))
         {
             ((StructVirut_F*)(This->FullDetectArgument))->BTypeDecode = XorVirut;
             This->State = Virut_MOV_XCHG_2;
 
         }
-        else if (Ins == ID_SUB && *OpCode == 0x29 )
+        else if (Ins == ID_SUB && *OpCode == 0x29)
         {
             ((StructVirut_F*)(This->FullDetectArgument))->BTypeDecode = SubVirut;
             This->State = Virut_MOV_XCHG_2;
