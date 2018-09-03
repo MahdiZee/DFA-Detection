@@ -1,0 +1,4 @@
+LIBRARY    DetectPolyVirus
+DESCRIPTION 'DetectPolyVirus'
+EXPORTS
+    HasPolyMorphicInfection

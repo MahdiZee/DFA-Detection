@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DetectPolyVirus", "DetectPolyVirus.vcproj", "{7C26E023-25DD-4286-9E2F-CD825C0BAD6D}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestPolyDll", "TestPolyDll.vcproj", "{24DC7B87-D7EC-464D-898B-6CE28AC0DA3A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7C26E023-25DD-4286-9E2F-CD825C0BAD6D}.Debug|Win32.ActiveCfg = Debug|Win32
+		{7C26E023-25DD-4286-9E2F-CD825C0BAD6D}.Debug|Win32.Build.0 = Debug|Win32
+		{7C26E023-25DD-4286-9E2F-CD825C0BAD6D}.Release|Win32.ActiveCfg = Release|Win32
+		{7C26E023-25DD-4286-9E2F-CD825C0BAD6D}.Release|Win32.Build.0 = Release|Win32
+		{24DC7B87-D7EC-464D-898B-6CE28AC0DA3A}.Debug|Win32.ActiveCfg = Debug|Win32
+		{24DC7B87-D7EC-464D-898B-6CE28AC0DA3A}.Debug|Win32.Build.0 = Debug|Win32
+		{24DC7B87-D7EC-464D-898B-6CE28AC0DA3A}.Release|Win32.ActiveCfg = Release|Win32
+		{24DC7B87-D7EC-464D-898B-6CE28AC0DA3A}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
