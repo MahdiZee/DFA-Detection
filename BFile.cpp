@@ -154,7 +154,7 @@ DWORD BFile::MianDoSefr(DWORD Start, DWORD Size, BYTE Target)
     return 0;
 }
 //------------------------------------------------------------------------------
-#if defined(Behpad) || defined(Zeynali)
+#if defined(Zeynali)
 DWORD BFile::Write(PVOID Buffer, UINT Size)
 {
     DWORD NumberOfBytesWrite = 0;

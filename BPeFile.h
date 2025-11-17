@@ -5,7 +5,6 @@
 
 #define DoAlignment(Size, Align) ((Size)+(((Size)%(Align)==0)?0:(Align))-((Size)%(Align)))
 
-
 class BPeFile : public BFile
 {
 public:
@@ -34,7 +33,7 @@ public:
     IMAGE_SECTION_HEADER* ReadLastSectionEntry();
     IMAGE_SECTION_HEADER* ReadSectionEntryForRVA(DWORD RVA);
     IMAGE_SECTION_HEADER* ReadSectionEntryForOffset(DWORD Offset);
-#if defined(Behpad)|| defined(Zeynali)
+#if defined(Zeynali)
     BOOL ZeroSection(DWORD Offset);
     BOOL ZeroBlockEndSection(DWORD Offset);
     BOOL CleanEndOfFile ();

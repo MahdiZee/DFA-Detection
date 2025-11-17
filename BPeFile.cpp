@@ -173,7 +173,7 @@ IMAGE_SECTION_HEADER* BPeFile::ReadSectionEntryForRVA(DWORD RVA)
     return NULL;
 }
 //------------------------------------------------------------------------------
-#if defined(Behpad) || defined(Zeynali)
+#if defined(Zeynali)
 BOOL BPeFile::ZeroBlockEndSection(DWORD Offset)
 {
     IMAGE_SECTION_HEADER* SectionEntry = ReadSectionEntryForOffset(Offset);

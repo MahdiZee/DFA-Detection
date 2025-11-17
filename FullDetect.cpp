@@ -26,7 +26,7 @@ int FullDetectSality(PVOID objSality, BehpadOpertionType OpertionType, Infection
     DWORD vImageBase;
     
     int   i;
-#if defined(Behpad) || defined(Zeynali)
+#if defined(Zeynali)
     int   DiffCodeLenght;
     BYTE* Buffer;
     DWORD OffsetLenght;
@@ -125,7 +125,7 @@ int FullDetectSality(PVOID objSality, BehpadOpertionType OpertionType, Infection
         return 2;
     }
 
-#if defined(Behpad) || defined(Zeynali)
+#if defined(Zeynali)
 
     if (OpertionType != DisInfect)
         return 1;
@@ -267,7 +267,7 @@ int FullDetectSality_AC(PVOID objSality, BehpadOpertionType OpertionType, Infect
     int i;
     BYTE* SrcPtr, *DestPtr;
     
-#if defined(Behpad) || defined(Zeynali)
+#if defined(Zeynali)
     DWORD LenDeCode;
     DWORD OffsetCode;
     PBYTE OrginalDecode, Buffer;
@@ -341,7 +341,7 @@ int FullDetectSality_AC(PVOID objSality, BehpadOpertionType OpertionType, Infect
 
     Result->State = INFECTED;
     Result->VirusNo = Win32_Sality_AC;
-#if defined(Behpad) || defined(Zeynali)
+#if defined(Zeynali)
 
     if (OpertionType != DisInfect)
         return 1;
@@ -416,7 +416,7 @@ int FullDetectSality_AD(PVOID objSality, BehpadOpertionType OpertionType, Infect
     BYTE  PatternSality_Z[] = { 0x8B, 0xF8, 0x8B, 0x06, 0x39, 0x07, 0x74, 0x02, 0xF3, 0xA4, 0x8D, 0x85 };
     int   i;
     
-#if defined(Behpad) || defined(Zeynali)
+#if defined(Zeynali)
     DWORD OfsetDecodeOrginal;
     DWORD vImageBase;
     int   DiffCodeLenght;
@@ -500,7 +500,7 @@ int FullDetectSality_AD(PVOID objSality, BehpadOpertionType OpertionType, Infect
     Result->State = INFECTED;
     Result->VirusNo = Win32_Sality_AD;
 
-#if defined(Behpad) || defined(Zeynali)
+#if defined(Zeynali)
 
     if (OpertionType != DisInfect)
         return 1;
@@ -636,7 +636,7 @@ int FullDetectVirutOverWrite(PVOID objVirut, BehpadOpertionType OpertionType, In
     DWORD LenAfterCall;
     int   i, VirusIndex;
     
-#if defined(Behpad) || defined(Zeynali)
+#if defined(Zeynali)
     PBYTE OverWriteBuffer;
 #endif
     if (Result == NULL)
@@ -692,7 +692,7 @@ int FullDetectVirutOverWrite(PVOID objVirut, BehpadOpertionType OpertionType, In
     if (SizeOverWrite == 0)
     {
         Result->Method = ChangedEntryPoint;
-#if defined(Behpad) || defined(Zeynali)
+#if defined(Zeynali)
         if (OpertionType == DisInfect)
         {
             Result->StartInfection = PeFile->ConvertRvaToOffset(ArgStruct->StartClean);
@@ -703,7 +703,7 @@ int FullDetectVirutOverWrite(PVOID objVirut, BehpadOpertionType OpertionType, In
         return 2;
     }
 
-#if defined(Behpad) || defined(Zeynali)
+#if defined(Zeynali)
     if (OpertionType == DisInfect)
     {
         // in case of errors to forec clean function to delete file
@@ -1030,7 +1030,7 @@ int DetectVirut_EndFile (PVirutScanCleanStruct This,
     if (*(PDWORD)TestValue & This->CheckCall)
     {
         Result->Method = ChangedRoutin;
-#if defined(Behpad) || defined(Zeynali)
+#if defined(Zeynali)
         // virus changed an original call to jump into its second part
         if (OpertionType == DisInfect)
         {                     
@@ -1050,7 +1050,7 @@ int DetectVirut_EndFile (PVirutScanCleanStruct This,
     else
     {
         Result->Method = ChangedEntryPoint;
-#if defined(Behpad) || defined(Zeynali)
+#if defined(Zeynali)
         RVA -= LenghtSub - LenAfterCall; // main entry point RVA that should be write
         // at the header
         if (OpertionType == DisInfect)

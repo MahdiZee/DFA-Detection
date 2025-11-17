@@ -25,7 +25,7 @@ public :
     void  Close();
     void  Erase(TCHAR* FileName);
     DWORD GetFileSize();
-#if defined(Behpad)|| defined(Zeynali)
+#if defined(Zeynali)
     DWORD Write(PVOID Buffer, UINT Size);
     DWORD WriteZero(UINT Size);
     DWORD Fill(UINT Size, BYTE byte);

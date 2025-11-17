@@ -72,7 +72,7 @@ __declspec(dllexport) DWORD HasPolyMorphicInfectionEOF (TCHAR* FileName, BehpadO
     delete MemoryManager;
     return NoError;
 }
-#if defined(Behpad) || defined(Zeynali)
+#if defined(Zeynali)
 //---------------------------------------------------------------------------------------------------------------------
 ErrorMessage DisInfectVirus (BPeFile* PeFile, DWORD OffsetInfection, DWORD OffsetStub)
 {
@@ -99,7 +99,7 @@ ErrorMessage DisInfectVirus (BPeFile* PeFile, DWORD OffsetInfection, DWORD Offse
 }
 #endif
 //---------------------------------------------------------------------------------------------------------------------
-#if defined(Behpad) || defined(Zeynali)
+#if defined(Zeynali)
 __declspec(dllexport) DWORD DisInfectReparableOverWrite (TCHAR* FileName, void* Result)
 {
     BPeFile* PeFile = NULL;
@@ -141,7 +141,7 @@ __declspec(dllexport) DWORD DisInfectReparableOverWrite (TCHAR* FileName, void* 
 }
 #endif
 //---------------------------------------------------------------------------------------------------------------------
-#if defined(Behpad) || defined(Zeynali)
+#if defined(Zeynali)
 __declspec(dllexport) DWORD DisInfectChangedEntryPoint (TCHAR* FileName, void* Result)
 {
     BPeFile* PeFile = NULL;
@@ -183,7 +183,7 @@ __declspec(dllexport) DWORD DisInfectChangedEntryPoint (TCHAR* FileName, void* R
 }
 #endif
 //---------------------------------------------------------------------------------------------------------------------
-#if defined(Behpad) || defined(Zeynali)
+#if defined(Zeynali)
 __declspec(dllexport) DWORD DisInfectChangedRoutin (TCHAR* FileName, void* Result)
 {
     BPeFile* PeFile = NULL;
@@ -228,7 +228,7 @@ __declspec(dllexport) DWORD DisInfectChangedRoutin (TCHAR* FileName, void* Resul
 }
 #endif
 //---------------------------------------------------------------------------------------------------------------------
-#if defined(Behpad) || defined(Zeynali)
+#if defined(Zeynali)
 __declspec(dllexport) DWORD DisInfectWithOutEntryPoint (TCHAR* FileName, void* Result)
 {
     BPeFile* PeFile = NULL;
@@ -262,7 +262,7 @@ __declspec(dllexport) DWORD DisInfectWithOutEntryPoint (TCHAR* FileName, void* R
 }
 #endif
 //---------------------------------------------------------------------------------------------------------------------
-#if defined(Behpad) || defined(Zeynali)
+#if defined(Zeynali)
 __declspec(dllexport) DWORD CleanEndOfFile (TCHAR* FileName)
 {
     BPeFile* PeFile = NULL;
