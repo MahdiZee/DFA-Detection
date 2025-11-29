@@ -5,11 +5,11 @@
 #include "Function.h"
 #include "Data.h"
 #include "DfaMachine.h"
-#include "BMemoryManager.h"
-#include "BPeFile.h"
+#include "ZMemoryManager.h"
+#include "ZPeFile.h"
 
 extern __Flag Flag;
-extern BPeFile* PeFile;
+extern ZPeFile* PeFile;
 
 extern void X86Emul_RetWithNumber(SIGNED_DWORD Number);
 extern void JMP(void); 

@@ -5,12 +5,12 @@
 #include "Data.h"
 #include "ScanGeneral.h"
 #include "DisasmbleTable.h"
-#include "BMemoryManager.h"
+#include "ZMemoryManager.h"
 #include "FullDetect.h"
 #include "Pattern.h"
 #include "Type.h"
 
-extern BMemoryManager* MemoryManager;
+extern ZMemoryManager* MemoryManager;
 //-------------------------------------------------------------------------------------------
 void FreeCallbackMems(HeuristicCallBack arrHeuristicCallBack[])
 {
@@ -26,28 +26,28 @@ void FreeCallbackMems(HeuristicCallBack arrHeuristicCallBack[])
     }
 }
 //-------------------------------------------------------------------------------------------
-void Scan (DWORD EntryPoint, BehpadOpertionType OpertionType, InfectionResult* Result)
+void Scan (DWORD EntryPoint, AntiVirusOpertionType OpertionType, InfectionResult* Result)
 {
-    Result->State = VIRUSFREE;
+    Result->State = VIRALSTATE::VIRUSFREE;
 
     for (int i = 0; i < NUMBER_OF_ARRAY(ListVirutClean); i++)
     {
         if (DetectVirutEOS(ListVirutClean + i, OpertionType, Result) != NO_INFECTION)
         {
-            if (Result->State == INFECTED)
+            if (Result->State == VIRALSTATE::INFECTED)
                 return;
             break;
         }
     }
 
     DoHeuristic (EntryPoint, OpertionType, Result);
-    if (Result->State == INFECTED)
+    if (Result->State == VIRALSTATE::INFECTED)
         return;
 
     // DetectPolyPart();
 }
 //-------------------------------------------------------------------------------------------
-void DoHeuristic (DWORD EntryPoint, BehpadOpertionType OpertionType, InfectionResult* Result)
+void DoHeuristic (DWORD EntryPoint, AntiVirusOpertionType OpertionType, InfectionResult* Result)
 {
     FuncFullDetect pFullDetectSality_AD[] = {FullDetectSality_AD, NULL};
     FuncFullDetect pFullDetectSality[]    = {FullDetectSality, FullDetectSality_AC, NULL};
@@ -85,7 +85,7 @@ void DoHeuristic (DWORD EntryPoint, BehpadOpertionType OpertionType, InfectionRe
         return;
     }
 
-    Result->State = SUSPICIOUS;
+    Result->State = VIRALSTATE::SUSPICIOUS;
     Result->VirusNo = objHeuristic->VirusNo;
 
     if (objHeuristic->Result == Like)
@@ -101,7 +101,7 @@ void DoHeuristic (DWORD EntryPoint, BehpadOpertionType OpertionType, InfectionRe
             break;
     }
 
-    // Result->State = INFECTED;
+    // Result->State = VIRALSTATE::INFECTED;
     FreeCallbackMems(arrHeuristicCallBack);
     return;
 }

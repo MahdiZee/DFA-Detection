@@ -1,32 +1,32 @@
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
-#include "BPeFile.h"
-#include "BMemoryManager.h"
+#include "ZPeFile.h"
+#include "ZMemoryManager.h"
 #include "Scan.h"
 #include "ScanGeneral.h"
 #include "FullDetect.h"
 
-BPeFile* PeFile;
-BMemoryManager* MemoryManager;
+ZPeFile* PeFile;
+ZMemoryManager* MemoryManager;
 //---------------------------------------------------------------------------------------------------------------------
 BOOL APIENTRY DllMain (HANDLE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)
 {
     return TRUE;
 }
 //---------------------------------------------------------------------------------------------------------------------
-__declspec(dllexport) DWORD HasPolyMorphicInfection (TCHAR* FileName, BehpadOpertionType OpertionType, void* Result)
+__declspec(dllexport) DWORD HasPolyMorphicInfection (TCHAR* FileName, AntiVirusOpertionType OpertionType, void* Result)
 {
     if (Result == NULL)
         return ResultNonValid;
 
-    PeFile = new BPeFile();
+    PeFile = new ZPeFile();
     if (PeFile == NULL || PeFile->Open (FileName) == FALSE)
     {
         delete PeFile;
         return PeFile->Error;
     }
 
-    MemoryManager = new BMemoryManager(PeFile);
+    MemoryManager = new ZMemoryManager(PeFile);
     if (MemoryManager == NULL)
     {
         delete PeFile;
@@ -41,20 +41,20 @@ __declspec(dllexport) DWORD HasPolyMorphicInfection (TCHAR* FileName, BehpadOper
     return NoError;
 }
 //---------------------------------------------------------------------------------------------------------------------
-__declspec(dllexport) DWORD HasPolyMorphicInfectionEOF (TCHAR* FileName, BehpadOpertionType OpertionType, void* Result)
+__declspec(dllexport) DWORD HasPolyMorphicInfectionEOF (TCHAR* FileName, AntiVirusOpertionType OpertionType, void* Result)
 {
     InfectionResult* result = (InfectionResult*)Result;
     if (Result == NULL)
         return ResultNonValid;
 
-    PeFile = new BPeFile();
+    PeFile = new ZPeFile();
     if (PeFile == NULL || PeFile->Open (FileName) == FALSE)
     {
         delete PeFile;
         return PeFile->Error;
     }
 
-    MemoryManager = new BMemoryManager(PeFile);
+    MemoryManager = new ZMemoryManager(PeFile);
     if (MemoryManager == NULL)
     {
         delete PeFile;
@@ -62,7 +62,7 @@ __declspec(dllexport) DWORD HasPolyMorphicInfectionEOF (TCHAR* FileName, BehpadO
         return GeneralError;
     }
 
-    result->State = VIRUSFREE;
+    result->State = VIRALSTATE::VIRUSFREE;
 
     for (int i = 0; i < NUMBER_OF_ARRAY(ListVirutClean); i++)
         if (DetectVirutEOF (ListVirutClean + i, OpertionType, result) != NO_INFECTION)
@@ -74,7 +74,7 @@ __declspec(dllexport) DWORD HasPolyMorphicInfectionEOF (TCHAR* FileName, BehpadO
 }
 #if defined(Zeynali)
 //---------------------------------------------------------------------------------------------------------------------
-ErrorMessage DisInfectVirus (BPeFile* PeFile, DWORD OffsetInfection, DWORD OffsetStub)
+ErrorMessage DisInfectVirus (ZPeFile* PeFile, DWORD OffsetInfection, DWORD OffsetStub)
 {
     IMAGE_SECTION_HEADER* InfectionSection = NULL;
     IMAGE_SECTION_HEADER* StubSection = NULL;
@@ -102,17 +102,17 @@ ErrorMessage DisInfectVirus (BPeFile* PeFile, DWORD OffsetInfection, DWORD Offse
 #if defined(Zeynali)
 __declspec(dllexport) DWORD DisInfectReparableOverWrite (TCHAR* FileName, void* Result)
 {
-    BPeFile* PeFile = NULL;
+    ZPeFile* PeFile = NULL;
     InfectionResult* result = (InfectionResult*)Result;
     ErrorMessage Error = NoError;
 
     if (Result == NULL)
         return ResultNonValid;
 
-    if (result->State != INFECTED || result->Method != ReparableOverWrite)
+    if (result->State != VIRALSTATE::INFECTED || result->Method != ReparableOverWrite)
         return NoError;
 
-    PeFile = new BPeFile();
+    PeFile = new ZPeFile();
     if (PeFile == NULL)
         return BufferNonAllocated;
 
@@ -144,17 +144,17 @@ __declspec(dllexport) DWORD DisInfectReparableOverWrite (TCHAR* FileName, void* 
 #if defined(Zeynali)
 __declspec(dllexport) DWORD DisInfectChangedEntryPoint (TCHAR* FileName, void* Result)
 {
-    BPeFile* PeFile = NULL;
+    ZPeFile* PeFile = NULL;
     InfectionResult* result = (InfectionResult*)Result;
     ErrorMessage Error = NoError;
 
     if (Result == NULL)
         return ResultNonValid;
 
-    if (result->State != INFECTED || result->Method != ChangedEntryPoint)
+    if (result->State != VIRALSTATE::INFECTED || result->Method != ChangedEntryPoint)
         return NoError;
 
-    PeFile = new BPeFile();
+    PeFile = new ZPeFile();
     if (PeFile == NULL)
         return BufferNonAllocated;
 
@@ -186,17 +186,17 @@ __declspec(dllexport) DWORD DisInfectChangedEntryPoint (TCHAR* FileName, void* R
 #if defined(Zeynali)
 __declspec(dllexport) DWORD DisInfectChangedRoutin (TCHAR* FileName, void* Result)
 {
-    BPeFile* PeFile = NULL;
+    ZPeFile* PeFile = NULL;
     InfectionResult* result = (InfectionResult*)Result;
     ErrorMessage Error = NoError;
 
     if (Result == NULL)
         return ResultNonValid;
 
-    if (result->State != INFECTED || result->Method != ChangedRoutin)
+    if (result->State != VIRALSTATE::INFECTED || result->Method != ChangedRoutin)
         return NoError;
 
-    PeFile = new BPeFile();
+    PeFile = new ZPeFile();
     if (PeFile == NULL)
         return BufferNonAllocated;
 
@@ -231,17 +231,17 @@ __declspec(dllexport) DWORD DisInfectChangedRoutin (TCHAR* FileName, void* Resul
 #if defined(Zeynali)
 __declspec(dllexport) DWORD DisInfectWithOutEntryPoint (TCHAR* FileName, void* Result)
 {
-    BPeFile* PeFile = NULL;
+    ZPeFile* PeFile = NULL;
     InfectionResult* result = (InfectionResult*)Result;
     ErrorMessage Error = NoError;
 
     if (Result == NULL)
         return ResultNonValid;
 
-    if (result->State != INFECTED || result->Method != WithOutEntryPoint)
+    if (result->State != VIRALSTATE::INFECTED || result->Method != WithOutEntryPoint)
         return NoError;
 
-    PeFile = new BPeFile();
+    PeFile = new ZPeFile();
     if (PeFile == NULL)
         return BufferNonAllocated;
 
@@ -265,10 +265,10 @@ __declspec(dllexport) DWORD DisInfectWithOutEntryPoint (TCHAR* FileName, void* R
 #if defined(Zeynali)
 __declspec(dllexport) DWORD CleanEndOfFile (TCHAR* FileName)
 {
-    BPeFile* PeFile = NULL;
+    ZPeFile* PeFile = NULL;
     ErrorMessage Error = NoError;
 
-    PeFile = new BPeFile();
+    PeFile = new ZPeFile();
     if (PeFile == NULL)
         return BufferNonAllocated;
 

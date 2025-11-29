@@ -1,8 +1,8 @@
-#ifndef BMemoryManagerH
-#define BMemoryManagerH
+#ifndef ZMemoryManagerH
+#define ZMemoryManagerH
 
 #include "windows.h" 
-#include "BPeFile.h" 
+#include "ZPeFile.h" 
 
 #define ShiftOfBlockSize    (6)
 #define BLOCK_ENTRY_SIZE    (1 << ShiftOfBlockSize)
@@ -14,18 +14,18 @@ typedef struct _MemBlockEntry
    BYTE  Value[BLOCK_ENTRY_SIZE];
 } MemBlockEntry, *PMemBlockEntry;
 
-class BMemoryManager
+class ZMemoryManager
 {
 private:
-    BPeFile *mPeFile;
+    ZPeFile *mPeFile;
     MemBlockEntry MemBlock[MAX_MEM_BLOCK_ENTRY];
     int TopEntry;
 private:
     int SearchBlock(DWORD Address);
     DWORD ReadPeFile(DWORD Address, PBYTE Buff);
 public:
-    ~BMemoryManager();
-    BMemoryManager(BPeFile* PeFile);
+    ~ZMemoryManager();
+    ZMemoryManager(ZPeFile* PeFile);
     int GetValue(DWORD Address, PBYTE Value, DWORD Len);
     int SetValue(DWORD Address, PBYTE Value, DWORD Len);
 };

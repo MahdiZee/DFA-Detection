@@ -56,7 +56,7 @@ typedef struct _StructVirut_Z_AB_AC
     } MainAPIRVA;
 } StructVirut_Z_AB_AC, *PStructVirut_Z_AB_AC;
 
-typedef int (*FuncFullDetect)(PVOID, BehpadOpertionType, InfectionResult*);
+typedef int (*FuncFullDetect)(PVOID, AntiVirusOpertionType, InfectionResult*);
 
 typedef struct _HeuristicCallBack
 {

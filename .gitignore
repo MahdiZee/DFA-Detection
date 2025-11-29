@@ -2,3 +2,8 @@
 *.suo
 *.ncb
 *.user
+.vs
+x64
+Win32
+Debug
+Release

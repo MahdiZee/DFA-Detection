@@ -7,6 +7,6 @@
 #define b2 b[2]
 
 void FreeCallbackMems(HeuristicCallBack arrHeuristicCallBack[]);
-void Scan (DWORD EntryPoint, BehpadOpertionType OpertionType, InfectionResult* Result);
-void DoHeuristic (DWORD EntryPoint, BehpadOpertionType OpertionType, InfectionResult* Result);
+void Scan (DWORD EntryPoint, AntiVirusOpertionType OpertionType, InfectionResult* Result);
+void DoHeuristic (DWORD EntryPoint, AntiVirusOpertionType OpertionType, InfectionResult* Result);
 HeuristicCallBack* HeuristicScanVirus(DWORD EntryPoint, HeuristicCallBack ListHeuristicCallBack[]);

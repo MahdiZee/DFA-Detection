@@ -4,7 +4,7 @@
 #define MaxBuffSize 0x1000
 #define MinBuffSize 0x10
 
-enum BehpadOpertionType
+enum AntiVirusOpertionType
 {
     Detect, 
     DisInfect

@@ -10,7 +10,7 @@ char *InfectionMethodMessage[4] =
     "woe"
 };
 
-typedef DWORD (*DllHasPolyMorphicInfection)(TCHAR*,BehpadOpertionType, void*);
+typedef DWORD (*DllHasPolyMorphicInfection)(TCHAR*,AntiVirusOpertionType, void*);
 typedef DWORD (*DllCleanEndOfFile)(TCHAR*);
 typedef DWORD (*DllDisInfect)(TCHAR* FileName, void* Result);
 
@@ -30,8 +30,8 @@ int main(int argc, char* argv[])
     if (hModule == NULL)
         return 1;
 
-    HasPolyMorphicInfection     = (DllHasPolyMorphicInfection)GetProcAddress(hModule, "?HasPolyMorphicInfection@@YAKPADW4BehpadOpertionType@@PAX@Z");
-    HasPolyMorphicInfectionEOF  = (DllHasPolyMorphicInfection)GetProcAddress(hModule, "?HasPolyMorphicInfectionEOF@@YAKPADW4BehpadOpertionType@@PAX@Z");
+    HasPolyMorphicInfection     = (DllHasPolyMorphicInfection)GetProcAddress(hModule, "?HasPolyMorphicInfection@@YAKPADW4AntiVirusOpertionType@@PAX@Z");
+    HasPolyMorphicInfectionEOF  = (DllHasPolyMorphicInfection)GetProcAddress(hModule, "?HasPolyMorphicInfectionEOF@@YAKPADW4AntiVirusOpertionType@@PAX@Z");
     DisInfectReparableOverWrite = (DllDisInfect)GetProcAddress(hModule, "?DisInfectReparableOverWrite@@YAKPADPAX@Z");
     DisInfectChangedEntryPoint  = (DllDisInfect)GetProcAddress(hModule, "?DisInfectChangedEntryPoint@@YAKPADPAX@Z");
     DisInfectWithOutEntryPoint  = (DllDisInfect)GetProcAddress(hModule, "?DisInfectWithOutEntryPoint@@YAKPADPAX@Z");
@@ -104,7 +104,7 @@ bool ScanPath(LPCTSTR Path, bool Dir)
                 {
                     memset(&result, 0, sizeof(result));
                     HasPolyMorphicInfection (FindFileData.cFileName, DisInfect, &result);
-                    if (result.State != VIRUSFREE)
+                    if (result.State != VIRALSTATE::VIRUSFREE)
                     {
                         IsVirus = true;
                         NumberOfVirus++;
@@ -115,9 +115,9 @@ bool ScanPath(LPCTSTR Path, bool Dir)
                             printf("%s%s%*d.%s%s", Path, FindFileData.cFileName, a, 
                                     result.VirusNo, 
                                     InfectionMethodMessage[result.Method], 
-                                    (result.State==SUSPICIOUS)?".hure":"");
+                                    (result.State == VIRALSTATE::SUSPICIOUS)?".hure":"");
                         else
-                            printf(" %d.%s%s", result.VirusNo, InfectionMethodMessage[result.Method], (result.State==SUSPICIOUS)?".hure":"");
+                            printf(" %d.%s%s", result.VirusNo, InfectionMethodMessage[result.Method], (result.State==VIRALSTATE::SUSPICIOUS)?".hure":"");
 
                         if (DisInfectReparableOverWrite (FindFileData.cFileName, &result) != NoError)
                             break;
@@ -126,13 +126,13 @@ bool ScanPath(LPCTSTR Path, bool Dir)
                         if (DisInfectChangedRoutin (FindFileData.cFileName, &result) != NoError)
                             break;
                     }
-                }while (result.State == INFECTED);
+                }while (result.State == VIRALSTATE::INFECTED);
 
                 do
                 {
                     memset(&result, 0, sizeof(result));
                     HasPolyMorphicInfectionEOF (FindFileData.cFileName, DisInfect, &result);
-                    if (result.State == INFECTED)
+                    if (result.State == VIRALSTATE::INFECTED)
                     {
                         IsVirus = true;
                         aFileVirus++;
@@ -141,14 +141,14 @@ bool ScanPath(LPCTSTR Path, bool Dir)
                             printf("%s%s%*d.%s%s", Path, FindFileData.cFileName, a, 
                                     result.VirusNo, 
                                     InfectionMethodMessage[result.Method], 
-                                    (result.State==SUSPICIOUS)?".hure":"");
+                                    (result.State == VIRALSTATE::SUSPICIOUS)?".hure":"");
                         else
-                            printf(" %d.%s%s", result.VirusNo, InfectionMethodMessage[result.Method], (result.State==SUSPICIOUS)?".hure":"");
+                            printf(" %d.%s%s", result.VirusNo, InfectionMethodMessage[result.Method], (result.State==VIRALSTATE::SUSPICIOUS)?".hure":"");
 
                         if (DisInfectWithOutEntryPoint (FindFileData.cFileName, &result) != NoError)
                             break;
                     }
-                }while (result.State == INFECTED || result.State == SUSPICIOUS);
+                }while (result.State == VIRALSTATE::INFECTED || result.State == VIRALSTATE::SUSPICIOUS);
 
                 if (IsVirus)
                     CleanEndOfFile(FindFileData.cFileName);

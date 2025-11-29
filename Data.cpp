@@ -2,15 +2,15 @@
 
 #include "Data.h"
 #include "Scan.h"
-#include "BPeFile.h"
+#include "ZPeFile.h"
 #include "Function.h"
-#include "BMemoryManager.h"
+#include "ZMemoryManager.h"
 #include "DisasmbleTable.h"
 
 extern WORD GrpPrefix[4];
 extern BYTE FS_Segment[FS_SEGMENT_SIZE];
-extern BPeFile* PeFile;
-extern BMemoryManager* MemoryManager;
+extern ZPeFile* PeFile;
+extern ZMemoryManager* MemoryManager;
 
 bool FlagEndBuf = false;
 DWORD EIP;
@@ -96,7 +96,7 @@ void* BufferGet (DWORD Address)
         return (PVOID)&EmulReadError;
     }
 
-    if ((DWORD)abs((unsigned)EIP - (unsigned)Address) < ThresholdOfBufferShouldBeCached)
+    if ((DWORD)labs((unsigned)EIP - (unsigned)Address) < ThresholdOfBufferShouldBeCached)
     {
         gMemoryManagerMemEntry.Address = Address;
     }

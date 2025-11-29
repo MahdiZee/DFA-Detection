@@ -1,12 +1,12 @@
-#include "BPeFile.h"
+#include "ZPeFile.h"
 #include "Message.h"
 #include "FullDetect.h"
 #include "Stochastic.h"
-#include "BMemoryManager.h"
+#include "ZMemoryManager.h"
 #include "DisasmbleTable.h"
 
-extern BPeFile* PeFile;
-extern BMemoryManager* MemoryManager;
+extern ZPeFile* PeFile;
+extern ZMemoryManager* MemoryManager;
 
 BOOL ComparePattern (PBYTE Src, PBYTE Dst, int Len)
 {
@@ -18,7 +18,7 @@ BOOL ComparePattern (PBYTE Src, PBYTE Dst, int Len)
 }
 //---------------------------------------------------------------------------------------------------------------------
 #define Sality_DecodeLen (0x6be+0x30)
-int FullDetectSality(PVOID objSality, BehpadOpertionType OpertionType, InfectionResult* Result)
+int FullDetectSality(PVOID objSality, AntiVirusOpertionType OpertionType, InfectionResult* Result)
 {
     BYTE  CodeArray[256], KeyArray [25], DecodeArray[Sality_DecodeLen];
     BYTE  PatternSality[] = { 0x8B, 0xF8, 0x8B, 0x06, 0x39, 0x07, 0x74, 0x02, 0xF3, 0xA4, 0x8D, 0x85 };
@@ -102,25 +102,25 @@ int FullDetectSality(PVOID objSality, BehpadOpertionType OpertionType, Infection
     OfsetDecodeOrginal = OfsetDecodeOrginal - vImageBase;
     if (OfsetDecodeOrginal == 0x4d0)
     {
-        Result->State = INFECTED;
+        Result->State = VIRALSTATE::VIRUSFREE;
         Result->VirusNo = Win32_Sality_AA;
         AddSality = 0;
     }
     else if (OfsetDecodeOrginal == 0x5DE)
     {
-        Result->State = INFECTED;
+        Result->State = VIRALSTATE::VIRUSFREE;
         Result->VirusNo = Win32_Sality_AB;
         AddSality = 4;
     }
     else if (OfsetDecodeOrginal == 0x6be)
     {
-        Result->State = INFECTED;
+        Result->State = VIRALSTATE::VIRUSFREE;
         Result->VirusNo = Win32_Sality_AE;
         AddSality = 4;
     }
     else
     {
-        Result->State = SUSPICIOUS;
+        Result->State = VIRALSTATE::SUSPICIOUS;
         Result->VirusNo = Win32_Sality_AA;
         return 2;
     }
@@ -153,18 +153,18 @@ int FullDetectSality(PVOID objSality, BehpadOpertionType OpertionType, Infection
 
     if (OffsetLenght > 0xceea || OffsetCode > 0xceea)
     {
-        Result->State = SUSPICIOUS;
+        Result->State = VIRALSTATE::SUSPICIOUS;
         return 2;
     }
     if ((Buffer = new BYTE[OffsetLenght - Sality_DecodeLen + 4]) == NULL)
     {
-        Result->State = SUSPICIOUS; // returns "like" to prevent file deletion
+        Result->State = VIRALSTATE::SUSPICIOUS; // returns "like" to prevent file deletion
         return 2;                   // is virus, but has error
     }
     if ((PeFile->Read(Buffer, OffsetLenght - Sality_DecodeLen + 4)) < OffsetLenght - Sality_DecodeLen + 4)
     {
         delete[] Buffer;
-        Result->State = SUSPICIOUS; // returns "like" to prevent file deletion
+        Result->State = VIRALSTATE::SUSPICIOUS; // returns "like" to prevent file deletion
         return 2;                   // is virus, but has error
     }
 
@@ -197,7 +197,7 @@ int FullDetectSality(PVOID objSality, BehpadOpertionType OpertionType, Infection
     if (Lenght >= 0x0000ffff)
     {
         delete[] Buffer;
-        Result->State = SUSPICIOUS; // returns "like" to prevent file deletion
+        Result->State = VIRALSTATE::SUSPICIOUS; // returns "like" to prevent file deletion
         return 2;                   // is virus, but has error
     }
 
@@ -207,14 +207,14 @@ int FullDetectSality(PVOID objSality, BehpadOpertionType OpertionType, Infection
         delete[] Buffer;
         if ((Buffer = new BYTE[Lenght +  DiffCodeLenght]) == NULL)
         {
-            Result->State = SUSPICIOUS; // returns "like" to prevent file deletion
+            Result->State = VIRALSTATE::SUSPICIOUS; // returns "like" to prevent file deletion
             return 2;                   // is virus, but has error
         }
 
         if ((PeFile->Read(Buffer, Lenght + DiffCodeLenght)) < Lenght + DiffCodeLenght)
         {
             delete[] Buffer;
-            Result->State = SUSPICIOUS; // returns "like" to prevent file deletion
+            Result->State = VIRALSTATE::SUSPICIOUS; // returns "like" to prevent file deletion
             return 2;                   // is virus, but has error
         }
 
@@ -256,7 +256,7 @@ int FullDetectSality(PVOID objSality, BehpadOpertionType OpertionType, Infection
     return 1;
 }
 //---------------------------------------------------------------------------------------------------------------------
-int FullDetectSality_AC(PVOID objSality, BehpadOpertionType OpertionType, InfectionResult* Result)
+int FullDetectSality_AC(PVOID objSality, AntiVirusOpertionType OpertionType, InfectionResult* Result)
 {
     BYTE CodeArray[256], KeyArray [24], DecodeArray [0x38];
     BYTE PatternSality_V[] =
@@ -339,7 +339,7 @@ int FullDetectSality_AC(PVOID objSality, BehpadOpertionType OpertionType, Infect
     if (ComparePattern(SrcPtr, DestPtr, sizeof(PatternSality_V)) == FALSE)
         return 0;
 
-    Result->State = INFECTED;
+    Result->State = VIRALSTATE::INFECTED;
     Result->VirusNo = Win32_Sality_AC;
 #if defined(Zeynali)
 
@@ -410,7 +410,7 @@ int FullDetectSality_AC(PVOID objSality, BehpadOpertionType OpertionType, Infect
 }
 //---------------------------------------------------------------------------------------------------------------------
 #define Sality_Z_DecodeLen (0x6e4+6)
-int FullDetectSality_AD(PVOID objSality, BehpadOpertionType OpertionType, InfectionResult* Result)
+int FullDetectSality_AD(PVOID objSality, AntiVirusOpertionType OpertionType, InfectionResult* Result)
 {
     BYTE  CodeArray[256], KeyArray [24], DecodeArray[Sality_Z_DecodeLen];
     BYTE  PatternSality_Z[] = { 0x8B, 0xF8, 0x8B, 0x06, 0x39, 0x07, 0x74, 0x02, 0xF3, 0xA4, 0x8D, 0x85 };
@@ -497,7 +497,7 @@ int FullDetectSality_AD(PVOID objSality, BehpadOpertionType OpertionType, Infect
     if (memcmp(DecodeArray + 0X158, PatternSality_Z, 12))
         return 0;
 
-    Result->State = INFECTED;
+    Result->State = VIRALSTATE::INFECTED;
     Result->VirusNo = Win32_Sality_AD;
 
 #if defined(Zeynali)
@@ -621,11 +621,11 @@ int FullDetectSality_AD(PVOID objSality, BehpadOpertionType OpertionType, Infect
     memcpy(Result->Row.EntryPointOwerWrite, Buffer + DiffCodeLenght, Lenght);
     delete[] Buffer;
 
-#endif // #ifdef Behpad
+#endif // #ifdef
     return 1;
 }
 //---------------------------------------------------------------------------------------------------------------------
-int FullDetectVirutOverWrite(PVOID objVirut, BehpadOpertionType OpertionType, InfectionResult* Result)
+int FullDetectVirutOverWrite(PVOID objVirut, AntiVirusOpertionType OpertionType, InfectionResult* Result)
 {
     StructVirut_F* ArgStruct = (StructVirut_F*)objVirut;
     BYTE  HeaderDecode[0xC1];
@@ -662,7 +662,7 @@ int FullDetectVirutOverWrite(PVOID objVirut, BehpadOpertionType OpertionType, In
         return 0;
     }
 
-    Result->State = INFECTED;
+    Result->State = VIRALSTATE::INFECTED;
     Result->VirusNo = ListVirutClean[VirusIndex].VirusNo;
 
     for (i = 0, tmpKey = ListVirutClean[VirusIndex].Key; i < sizeof(HeaderDecode); i++, tmpKey += ListVirutClean[VirusIndex].KeyAdd)
@@ -685,7 +685,7 @@ int FullDetectVirutOverWrite(PVOID objVirut, BehpadOpertionType OpertionType, In
 
     if (SizeOverWrite > 2048)
     {
-        Result->State = SUSPICIOUS;
+        Result->State = VIRALSTATE::SUSPICIOUS;
         return 0;
     }
 
@@ -796,7 +796,7 @@ TypeVirutCode CheckPattern (PBYTE Src, PBYTE Des, int Size)
     return NonDetectVirut;
 }
 //---------------------------------------------------------------------------------------------------------------------
-int FullDetectVirut_Z(PVOID objVirut, BehpadOpertionType OpertionType, InfectionResult* Result)
+int FullDetectVirut_Z(PVOID objVirut, AntiVirusOpertionType OpertionType, InfectionResult* Result)
 {
     // IMAGE_SECTION_HEADER SectionEntry;
     PStructVirut_Z_AB_AC ArgStruct = (PStructVirut_Z_AB_AC)objVirut;
@@ -806,11 +806,11 @@ int FullDetectVirut_Z(PVOID objVirut, BehpadOpertionType OpertionType, Infection
         // was called type, but our heuristic finds it first.
         // then we should return with "IsLikeVir" to detect in other
         // routine that searches from the end of file
-        Result->State = SUSPICIOUS;
+        Result->State = VIRALSTATE::SUSPICIOUS;
         return 2;
     }
 
-#ifdef Behpad
+#ifdef AntiVirus
     if (OpertionType == DisInfect)
     {
         if (ArgStruct->StartZero == 0)
@@ -826,7 +826,7 @@ int FullDetectVirut_Z(PVOID objVirut, BehpadOpertionType OpertionType, Infection
 
         if (PeFile->ReadSectionEntryForRVA(ArgStruct->StartDeCode - ImageBase, (PBYTE)&SectionEntry) == INVALIDSectionEntry)
         {
-            Result->State = SUSPICIOUS;
+            Result->State = VIRALSTATE::SUSPICIOUS;
             return 2;
         }
         // *(PDWORD)(buff+4) = FindBlockBetweenZeroBlocksInEndOfSection(&SectionEntry, VIRUT_AC_PART2_MIN_LEN, VIRUT_AC_PART2_MAX_LEN, 8, 0);
@@ -841,7 +841,7 @@ int FullDetectVirut_Z(PVOID objVirut, BehpadOpertionType OpertionType, Infection
 
 #endif
 
-    Result->State = INFECTED;
+    Result->State = VIRALSTATE::INFECTED;
     return 1;
 }
 //---------------------------------------------------------------------------------------------------------------------
@@ -872,7 +872,7 @@ BOOL DecodeVirut_Z(DWORD StartDeCode, DWORD Lenght, DWORD Key)
     return TRUE;
 }
 //---------------------------------------------------------------------------------------------------------------------
-DWORD DetectVirutEOS(PVirutScanCleanStruct This, BehpadOpertionType OpertionType, InfectionResult* Result)
+DWORD DetectVirutEOS(PVirutScanCleanStruct This, AntiVirusOpertionType OpertionType, InfectionResult* Result)
 {
     BYTE HeaderDecode [DetectVirutEOS_DecodeLen + 1];
     IMAGE_SECTION_HEADER* SectionEntry;
@@ -912,13 +912,13 @@ DWORD DetectVirutEOS(PVirutScanCleanStruct This, BehpadOpertionType OpertionType
             return NO_INFECTION;
     }
 
-    Result->State = (Status == 1) ? SUSPICIOUS : INFECTED;
+    Result->State = (Status == 1) ? VIRALSTATE::SUSPICIOUS : VIRALSTATE::INFECTED;
     Result->VirusNo = This->VirusNo;
 
     return This->VirusNo;
 }
 //---------------------------------------------------------------------------------------------------------------------
-DWORD DetectVirutEOF(PVirutScanCleanStruct This, BehpadOpertionType OpertionType, InfectionResult* Result)
+DWORD DetectVirutEOF(PVirutScanCleanStruct This, AntiVirusOpertionType OpertionType, InfectionResult* Result)
 {
     BYTE HeaderDecode [DetectVirutEOS_DecodeLen + 1];
     DWORD FilePtr;
@@ -958,7 +958,7 @@ DWORD DetectVirutEOF(PVirutScanCleanStruct This, BehpadOpertionType OpertionType
     }
 
     Result->Method = WithOutEntryPoint;
-    Result->State = INFECTED;
+    Result->State = VIRALSTATE::INFECTED;
     Result->StartInfection = FilePtr & 0xffffff00;
     Result->VirusNo = This->VirusNo;
 
@@ -972,7 +972,7 @@ int DetectVirut_EndFile (PVirutScanCleanStruct This,
                          BYTE* HeaderDecode,
                          UINT HeaderDecodeLen,
                          DWORD PhysicalAdd,
-                         BehpadOpertionType OpertionType,
+                         AntiVirusOpertionType OpertionType,
                          InfectionResult* Result)
 {
     IMAGE_SECTION_HEADER* SectionEntry;
@@ -1212,7 +1212,7 @@ DWORD FindCallerBranch2(PDWORD CalledRVA,
     BYTE               ByteTemp;
     DWORD              EndOffsetOfCode;
     SIGNED_DWORD       CallParam;
-    HeuristicCallBack* objHeuristic;
+    HeuristicCallBack* objHeuristic = NULL;
     BOOL               fMatched = FALSE;
 
     if (CalledRVA)
@@ -1291,7 +1291,7 @@ DWORD DetectVirut_AB(void)
     UINT Percent = 0;
     DWORD LastValidOffsetInEntryPoint = OffsetNotFound;
     
-#ifdef Behpad
+#ifdef AntiVirus
     DWORD JumpedRVA;
     StructVirut_Z_AB_AC FullDetectArgument;
     DWORD CallerFileOffset;
@@ -1355,7 +1355,7 @@ DWORD DetectVirut_AB(void)
         return VirusNo;
     }
 
-#ifdef Behpad
+#ifdef AntiVirus
     delete[] DecodersPartBuffer;
 
     CallerFileOffset = FindCallerBranch((PDWORD) &JumpedRVA, 0, 0xe9, &VirutHeuristicInitial, &FullDetectArgument, sizeof(FullDetectArgument));
@@ -1552,11 +1552,11 @@ DWORD DetectVirut_AC(void)
     if (CallerFileOffset == 0)
     {
         // IsLikeVir
-        // State = SUSPICIOUS;
+        // State = VIRALSTATE::SUSPICIOUS;
         return VirusNo;
     }
 
-#ifdef Behpad
+#ifdef AntiVirus
     if (OpertionType == DisInfect)
     {
         if (FullDetectArgument.StartZero == 0)

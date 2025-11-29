@@ -1,15 +1,15 @@
-#include "BPeFile.h"
+#include "ZPeFile.h"
 #include <windows.h>
 
 #define SECTION_SIZE (sizeof(IMAGE_SECTION_HEADER))
 
-BPeFile::~BPeFile()
+ZPeFile::~ZPeFile()
 {
     if (SectionEntrys != NULL)
         delete[] SectionEntrys;
 }
 //------------------------------------------------------------------------------
-BPeFile::BPeFile()
+ZPeFile::ZPeFile()
 {
     ImageBase = 0;
     ImageSize = 0;
@@ -20,7 +20,7 @@ BPeFile::BPeFile()
     SectionEntrys = NULL;
 }
 //------------------------------------------------------------------------------
-BPeFile::BPeFile(BPeFile& PeFile)
+ZPeFile::ZPeFile(ZPeFile& PeFile)
 {
     ImageBase = 0;
     ImageSize = 0;
@@ -32,7 +32,7 @@ BPeFile::BPeFile(BPeFile& PeFile)
     *this = PeFile;
 }
 //------------------------------------------------------------------------------
-BOOL BPeFile::Open(TCHAR* FileName, DWORD Access)
+BOOL ZPeFile::Open(TCHAR* FileName, DWORD Access)
 {
     if (Access == AccessReadWrite) 
     {
@@ -44,7 +44,7 @@ BOOL BPeFile::Open(TCHAR* FileName, DWORD Access)
     }
     else
     {
-        if (BFile::Open(FileName, Access) == FALSE)
+        if (ZFile::Open(FileName, Access) == FALSE)
         {
             Error = NotOpen;
             return FALSE;
@@ -55,7 +55,7 @@ BOOL BPeFile::Open(TCHAR* FileName, DWORD Access)
     return TRUE;
 }
 //------------------------------------------------------------------------------
-BOOL BPeFile::Init()
+BOOL ZPeFile::Init()
 {
     DWORD i;
     IMAGE_DOS_HEADER dosHeader;
@@ -118,19 +118,19 @@ BOOL BPeFile::Init()
     return TRUE;
 }
 //------------------------------------------------------------------------------
-DWORD BPeFile::ConvertAddressToOffset(DWORD Address)
+DWORD ZPeFile::ConvertAddressToOffset(DWORD Address)
 {
     return ConvertRvaToOffset(Address - ImageBase);
 }
 //------------------------------------------------------------------------------
-DWORD BPeFile::ConvertRvaToOffset(DWORD RVA)
+DWORD ZPeFile::ConvertRvaToOffset(DWORD RVA)
 {
     IMAGE_SECTION_HEADER* Section;
     Section = ReadSectionEntryForRVA(RVA);
     return (Section == NULL)? 0 : (RVA - Section->VirtualAddress) + Section->PointerToRawData;
 }
 //------------------------------------------------------------------------------
-IMAGE_SECTION_HEADER* BPeFile::ReadLastSectionEntry()
+IMAGE_SECTION_HEADER* ZPeFile::ReadLastSectionEntry()
 {
     DWORD MaxOffset = 0, index = 0;
     if ((SectionEntrys == NULL) || NumberOfSection == 0)
@@ -147,7 +147,7 @@ IMAGE_SECTION_HEADER* BPeFile::ReadLastSectionEntry()
     return &SectionEntrys[index];
 }
 //------------------------------------------------------------------------------
-IMAGE_SECTION_HEADER* BPeFile::ReadSectionEntryForOffset(DWORD Offset)
+IMAGE_SECTION_HEADER* ZPeFile::ReadSectionEntryForOffset(DWORD Offset)
 {
     DWORD Start, End;
     for (DWORD i = 0; i < NumberOfSection; i++)
@@ -160,7 +160,7 @@ IMAGE_SECTION_HEADER* BPeFile::ReadSectionEntryForOffset(DWORD Offset)
     return NULL;
 }
 //------------------------------------------------------------------------------
-IMAGE_SECTION_HEADER* BPeFile::ReadSectionEntryForRVA(DWORD RVA)
+IMAGE_SECTION_HEADER* ZPeFile::ReadSectionEntryForRVA(DWORD RVA)
 {
     DWORD Start, End;
     for (DWORD i = 0; i < NumberOfSection; i++)
@@ -174,7 +174,7 @@ IMAGE_SECTION_HEADER* BPeFile::ReadSectionEntryForRVA(DWORD RVA)
 }
 //------------------------------------------------------------------------------
 #if defined(Zeynali)
-BOOL BPeFile::ZeroBlockEndSection(DWORD Offset)
+BOOL ZPeFile::ZeroBlockEndSection(DWORD Offset)
 {
     IMAGE_SECTION_HEADER* SectionEntry = ReadSectionEntryForOffset(Offset);
 
@@ -189,7 +189,7 @@ BOOL BPeFile::ZeroBlockEndSection(DWORD Offset)
     return TRUE;
 }
 //------------------------------------------------------------------------------
-BOOL BPeFile::ZeroSection(DWORD Offset)
+BOOL ZPeFile::ZeroSection(DWORD Offset)
 {
     IMAGE_SECTION_HEADER* SectionEntry = ReadSectionEntryForOffset(Offset);
     DWORD index = (SectionEntrys - SectionEntry);
@@ -207,7 +207,7 @@ BOOL BPeFile::ZeroSection(DWORD Offset)
     return TRUE;
 }
 //------------------------------------------------------------------------------
-ErrorMessage BPeFile::DeleteSection(DWORD Offset)
+ErrorMessage ZPeFile::DeleteSection(DWORD Offset)
 {
     void* p = NULL;
     DWORD NumberOfSectionOffset = PeOffset + (DWORD)&(((IMAGE_NT_HEADERS*)p)->FileHeader.NumberOfSections);
@@ -267,7 +267,7 @@ ErrorMessage BPeFile::DeleteSection(DWORD Offset)
     return NoError;
 }
 //------------------------------------------------------------------------------
-ErrorMessage BPeFile::DeleteBlockFromSection(DWORD Offset, DWORD Size)
+ErrorMessage ZPeFile::DeleteBlockFromSection(DWORD Offset, DWORD Size)
 {
     void* p = NULL;
     DWORD NumberOfSectionOffset = PeOffset + (DWORD)&(((IMAGE_NT_HEADERS*)p)->FileHeader.NumberOfSections);
@@ -329,7 +329,7 @@ ErrorMessage BPeFile::DeleteBlockFromSection(DWORD Offset, DWORD Size)
     return NoError;
 }
 //------------------------------------------------------------------------------
-ErrorMessage BPeFile::DeleteBlockFromEndOfSection(DWORD Offset)
+ErrorMessage ZPeFile::DeleteBlockFromEndOfSection(DWORD Offset)
 {
     IMAGE_SECTION_HEADER* SectionEntry = ReadSectionEntryForOffset(Offset);
     if (SectionEntry == NULL)
@@ -341,7 +341,7 @@ ErrorMessage BPeFile::DeleteBlockFromEndOfSection(DWORD Offset)
         return DeleteBlockFromSection(Offset, SectionEntry->PointerToRawData + SectionEntry->SizeOfRawData - Offset); // Todo Align
 }
 //------------------------------------------------------------------------------
-ErrorMessage BPeFile::ChangeEntryPoint(DWORD OriginalEntryPoint)
+ErrorMessage ZPeFile::ChangeEntryPoint(DWORD OriginalEntryPoint)
 {
     void* p = NULL;
     DWORD EntryPointOffset = PeOffset + (DWORD)&(((IMAGE_NT_HEADERS*)p)->OptionalHeader.AddressOfEntryPoint);
@@ -351,7 +351,7 @@ ErrorMessage BPeFile::ChangeEntryPoint(DWORD OriginalEntryPoint)
     return NoError;
 }
 //------------------------------------------------------------------------------
-ErrorMessage BPeFile::WriteEntryPoint(PVOID Buffer, UINT Size)
+ErrorMessage ZPeFile::WriteEntryPoint(PVOID Buffer, UINT Size)
 {
     Seek(EntryPointOffset);
     if (Write(Buffer, Size) != Size)
@@ -359,7 +359,7 @@ ErrorMessage BPeFile::WriteEntryPoint(PVOID Buffer, UINT Size)
     return NoError;
 }
 //------------------------------------------------------------------------------
-BOOL BPeFile::CleanEndOfFile ()
+BOOL ZPeFile::CleanEndOfFile ()
 {
     DWORD Size, i;
     BYTE *Buffer;

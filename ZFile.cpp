@@ -1,18 +1,18 @@
-#include "BFile.h"
+#include "ZFile.h"
 #include "tchar.h"
-BFile::~BFile()
+ZFile::~ZFile()
 {
     Close();
 }
 //-------------------------------------------------------------------------------------------------
-BFile::BFile()
+ZFile::ZFile()
 {
     FileSize = 0;
     mFileHandle = INVALID_HANDLE_VALUE;
     mFileTemp = NULL;
 }
 //-------------------------------------------------------------------------------------------------
-BFile::BFile(BFile& File)
+ZFile::ZFile(ZFile& File)
 {
     *this = File;
     FileSize = 0;
@@ -21,21 +21,21 @@ BFile::BFile(BFile& File)
         Open(mFileName);
 }
 //-------------------------------------------------------------------------------------------------
-BFile::BFile(HANDLE FileHandle)
+ZFile::ZFile(HANDLE FileHandle)
 {
     FileSize = 0;
     mFileHandle = FileHandle; 
     mFileTemp = NULL;
 }
 //-------------------------------------------------------------------------------------------------
-BFile::BFile(TCHAR* FileName, DWORD Access)
+ZFile::ZFile(TCHAR* FileName, DWORD Access)
 {
     mFileName = FileName;
     mFileTemp = NULL;
     Open(mFileName, Access);
 }
 //-------------------------------------------------------------------------------------------------
-BOOL BFile::Open(TCHAR* FileName, DWORD Access)
+BOOL ZFile::Open(TCHAR* FileName, DWORD Access)
 {
     mFileHandle = INVALID_HANDLE_VALUE;
     __try
@@ -61,7 +61,7 @@ BOOL BFile::Open(TCHAR* FileName, DWORD Access)
     return (mFileHandle != INVALID_HANDLE_VALUE);
 }
 //-------------------------------------------------------------------------------------------------
-DWORD BFile::Read(PVOID Buffer, UINT Size)
+DWORD ZFile::Read(PVOID Buffer, UINT Size)
 {
     DWORD NumberOfBytesRead = 0;
     BOOL  isRead = FALSE;
@@ -75,7 +75,7 @@ DWORD BFile::Read(PVOID Buffer, UINT Size)
     return (isRead == FALSE) ? 0 : NumberOfBytesRead;
 }
 //-------------------------------------------------------------------------------------------------
-DWORD BFile::Seek(DWORD FilePointer, BYTE MoveMethod)
+DWORD ZFile::Seek(DWORD FilePointer, BYTE MoveMethod)
 {
     DWORD _FilePointer = 0;
     __try
@@ -88,7 +88,7 @@ DWORD BFile::Seek(DWORD FilePointer, BYTE MoveMethod)
     return _FilePointer;
 }
 //-------------------------------------------------------------------------------------------------
-void BFile::Close()
+void ZFile::Close()
 {
     __try
     {
@@ -109,7 +109,7 @@ void BFile::Close()
     }
 }
 //-------------------------------------------------------------------------------------------------
-void BFile::Erase(TCHAR* FileName)
+void ZFile::Erase(TCHAR* FileName)
 {
     __try
     {
@@ -129,12 +129,12 @@ void BFile::Erase(TCHAR* FileName)
     }
 }
 //-------------------------------------------------------------------------------------------------
-DWORD BFile::GetFileSize()
+DWORD ZFile::GetFileSize()
 {
     return FileSize;
 }
 //-------------------------------------------------------------------------------------------------
-DWORD BFile::MianDoSefr(DWORD Start, DWORD Size, BYTE Target)
+DWORD ZFile::MianDoSefr(DWORD Start, DWORD Size, BYTE Target)
 {
     BYTE* Buffer = new BYTE[Size];
     Seek(Start);
@@ -155,7 +155,7 @@ DWORD BFile::MianDoSefr(DWORD Start, DWORD Size, BYTE Target)
 }
 //------------------------------------------------------------------------------
 #if defined(Zeynali)
-DWORD BFile::Write(PVOID Buffer, UINT Size)
+DWORD ZFile::Write(PVOID Buffer, UINT Size)
 {
     DWORD NumberOfBytesWrite = 0;
     BOOL  isWrite = FALSE;
@@ -169,12 +169,12 @@ DWORD BFile::Write(PVOID Buffer, UINT Size)
     return (isWrite == FALSE)? 0 : NumberOfBytesWrite;
 }
 //-------------------------------------------------------------------------------------------------
-DWORD BFile::WriteZero(UINT Size)
+DWORD ZFile::WriteZero(UINT Size)
 {
     return Fill(Size, 0);
 }
 //-------------------------------------------------------------------------------------------------
-DWORD BFile::Fill(UINT Size, BYTE byte)
+DWORD ZFile::Fill(UINT Size, BYTE byte)
 {
     DWORD NumberOfBytesWrite = 0;
     BYTE* Temp = new BYTE[Size];
@@ -187,13 +187,13 @@ DWORD BFile::Fill(UINT Size, BYTE byte)
     return NumberOfBytesWrite;
 }
 //-------------------------------------------------------------------------------------------------
-BOOL BFile::Truncate (UINT FilePointer)
+BOOL ZFile::Truncate (UINT FilePointer)
 {
     Seek(FilePointer);
     return SetEndOfFile(mFileHandle);
 }
 //-------------------------------------------------------------------------------------------------
-BOOL BFile::OpenTemp(TCHAR* FileName)
+BOOL ZFile::OpenTemp(TCHAR* FileName)
 {
     TCHAR TempPath[MAX_PATH];
     DWORD ReturnValue = 0;

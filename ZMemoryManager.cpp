@@ -1,24 +1,24 @@
 #include "stdio.h"
 #include "string.h"
 
-#include "BMemoryManager.h"
-#include "BPeFile.h"
-#include "BFile.h"
+#include "ZMemoryManager.h"
+#include "ZPeFile.h"
+#include "ZFile.h"
 #include "Type.h"
 
 MemBlockEntry gMemoryManagerMemEntry;
 
-BMemoryManager::BMemoryManager(BPeFile* PeFile)
+ZMemoryManager::ZMemoryManager(ZPeFile* PeFile)
 {
     mPeFile = PeFile;
     TopEntry = 0;
     memset(MemBlock,0,sizeof(MemBlock));
 }
-BMemoryManager::~BMemoryManager()
+ZMemoryManager::~ZMemoryManager()
 {
 }
 //-------------------------------------------------------------------------------------------
-int BMemoryManager::GetValue(DWORD Address, PBYTE Value, DWORD Len)
+int ZMemoryManager::GetValue(DWORD Address, PBYTE Value, DWORD Len)
 {
     DWORD ofs, rel;
     DWORD Len1, Len2, Len3;
@@ -87,7 +87,7 @@ int BMemoryManager::GetValue(DWORD Address, PBYTE Value, DWORD Len)
 }
 
 //-------------------------------------------------------------------------------------------
-int BMemoryManager::SetValue(DWORD Address, PBYTE Value, DWORD Len)
+int ZMemoryManager::SetValue(DWORD Address, PBYTE Value, DWORD Len)
 {
     DWORD ofs, rel;
     DWORD Len1, Len2, Len3;
@@ -156,7 +156,7 @@ int BMemoryManager::SetValue(DWORD Address, PBYTE Value, DWORD Len)
 }
 
 //-------------------------------------------------------------------------------------------
-int BMemoryManager::SearchBlock(DWORD Address)
+int ZMemoryManager::SearchBlock(DWORD Address)
 {
     for (int i = 0; i < TopEntry; i++)
     {
@@ -166,7 +166,7 @@ int BMemoryManager::SearchBlock(DWORD Address)
     return TopEntry;
 }
 //-------------------------------------------------------------------------------------------
-DWORD BMemoryManager::ReadPeFile(DWORD Address, PBYTE Buffer)
+DWORD ZMemoryManager::ReadPeFile(DWORD Address, PBYTE Buffer)
 {
     DWORD bytes;
     DWORD FilePointer;

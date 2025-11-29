@@ -1,11 +1,11 @@
-#ifndef BPeFileH
-#define BPeFileH
-#include "BFile.h"
+#ifndef ZPeFileH
+#define ZPeFileH
+#include "ZFile.h"
 #include "ScanGeneral.h"
 
 #define DoAlignment(Size, Align) ((Size)+(((Size)%(Align)==0)?0:(Align))-((Size)%(Align)))
 
-class BPeFile : public BFile
+class ZPeFile : public ZFile
 {
 public:
     DWORD PeOffset;
@@ -22,12 +22,12 @@ private:
     DWORD* SectionOffset;
     BOOL  Init();
 public:
-    ~BPeFile();
-    BPeFile();
-    BPeFile(BPeFile& PeFile);
+    ~ZPeFile();
+    ZPeFile();
+    ZPeFile(ZPeFile& PeFile);
 
     BOOL  Open(TCHAR* FileName, DWORD Access = AccessRead);
-    BOOL  Init(BFile* File);
+    BOOL  Init(ZFile* File);
     DWORD ConvertRvaToOffset(DWORD RVA);
     DWORD ConvertAddressToOffset(DWORD Address);
     IMAGE_SECTION_HEADER* ReadLastSectionEntry();

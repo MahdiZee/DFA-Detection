@@ -1,12 +1,12 @@
 #include "Stochastic.h"
 #include "ScanGeneral.h"
 #include "Message.h"
-#include "BFile.h"
-#include "BPeFile.h"
+#include "ZFile.h"
+#include "ZPeFile.h"
 #include "stdlib.h"
 
-extern BFile* File;
-extern BPeFile* PeFile;
+extern ZFile* File;
+extern ZPeFile* PeFile;
 
 DWORD FindCallerBranch2(PDWORD CalledRVA, 
                         BYTE CallOrJmpInst, 
@@ -152,13 +152,13 @@ DWORD DetectPolyPart()
         if (CallerFileOffset == 0)
         {
             // IsLikeVir
-            // State = SUSPICIOUS;
+            // State = VIRALSTATE::SUSPICIOUS;
             return arrPolyPart[i].VirusHeuristicStochastic[index].VirusHeuristicInitial.VirusNo;
         }
 
         if (CallerFileOffset == 0)
             return false;  //Link
-#ifdef Behpad
+#ifdef Zeynali
         PoloyPartInitClean(arrPolyPart[i].VirusHeuristicStochastic[index].VirusHeuristicInitial.FullDetectArgument);
 #endif
     }
@@ -257,7 +257,7 @@ DWORD DetectPolyPartEOF(PPolyPart This)
 //----------------------------------------------------------------------------------------------------
 BOOL PoloyPartInitClean(PVOID Arg)
 {
-#ifdef Behpad
+#ifdef AntiVirus
     DWORD CallerFileOffset = 0;
     StructVirut_Z_AB_AC FullDetectArgument = *((StructVirut_Z_AB_AC*)(Arg));
 
