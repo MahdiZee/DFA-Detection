@@ -1,9 +1,11 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DetectPolyVirus", "DetectPolyVirus.vcproj", "{7C26E023-25DD-4286-9E2F-CD825C0BAD6D}"
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.36631.11
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DetectPolyVirus", "DetectPolyVirus.vcxproj", "{7C26E023-25DD-4286-9E2F-CD825C0BAD6D}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestPolyDll", "TestPolyDll.vcproj", "{24DC7B87-D7EC-464D-898B-6CE28AC0DA3A}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestPolyDll", "TestPolyDll.vcxproj", "{24DC7B87-D7EC-464D-898B-6CE28AC0DA3A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -22,5 +24,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6CFE48E2-8D09-4C9E-B3CC-81C6BBFA305D}
 	EndGlobalSection
 EndGlobal

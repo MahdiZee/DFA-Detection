@@ -96,7 +96,7 @@ void* BufferGet (DWORD Address)
         return (PVOID)&EmulReadError;
     }
 
-    if ((DWORD)abs((unsigned)EIP - (unsigned)Address) < ThresholdOfBufferShouldBeCached)
+    if ((DWORD)labs((unsigned)EIP - (unsigned)Address) < ThresholdOfBufferShouldBeCached)
     {
         gMemoryManagerMemEntry.Address = Address;
     }
