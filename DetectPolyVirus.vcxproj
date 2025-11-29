@@ -144,9 +144,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+<<<<<<< HEAD
     <ClCompile Include="ZPeFile.cpp" />
     <ClCompile Include="ZMemoryManager.cpp" />
     <ClCompile Include="ZFile.cpp" />
+=======
+    <ClCompile Include="BFile.cpp" />
+    <ClCompile Include="BMemoryManager.cpp" />
+    <ClCompile Include="BPeFile.cpp" />
+>>>>>>> 1051f05c3859adfd5530bbafd03ee499a6d80753
     <ClCompile Include="Data.cpp" />
     <ClCompile Include="DfaMachine.cpp" />
     <ClCompile Include="DisasmbleTable.cpp" />
@@ -159,9 +165,15 @@
     <ClCompile Include="Stochastic.cpp" />
   </ItemGroup>
   <ItemGroup>
+<<<<<<< HEAD
     <ClInclude Include="ZPeFile.h" />
     <ClInclude Include="ZMemoryManager.h" />
     <ClInclude Include="ZFile.h" />
+=======
+    <ClInclude Include="BFile.h" />
+    <ClInclude Include="BMemoryManager.h" />
+    <ClInclude Include="BPeFile.h" />
+>>>>>>> 1051f05c3859adfd5530bbafd03ee499a6d80753
     <ClInclude Include="Data.h" />
     <ClInclude Include="DfaMachine.h" />
     <ClInclude Include="DisasmbleTable.h" />
